@@ -102,7 +102,34 @@ def details(alias):
         return jsonify(restaurant_details), 200
     except Exception as error:
         return jsonify({'error': str(error)}), 500
+    
 
+@app.route('/businesses/<string:alias>/reviews', methods=['GET'])
+def reviews(alias):
+    try:
+        url = "https://api.yelp.com/v3/businesses"
+        headers = {"Authorization": f"Bearer {API_KEY}"}
+        
+        print(alias) 
+        if not alias:
+            return jsonify({'error': 'Business id/alias is required.'}), 400
+
+        response = requests.get(f"{url}/{alias}/reviews", headers=headers)
+        response.raise_for_status()
+        result = response.json()['reviews']
+
+
+        # restaurant_reviews = {
+        #     'text': result['text'],
+        #     'rating': result['rating']
+        # }
+
+        
+
+        return jsonify(result), 200
+
+    except Exception as error:
+        return jsonify({'error': str(error)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)

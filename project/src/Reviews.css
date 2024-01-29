@@ -1,0 +1,9 @@
+.reviews {
+    display: flex;
+    flex-direction: column;
+}
+
+.review {
+    margin-top: 2%;
+    background-color: lightgray;
+}

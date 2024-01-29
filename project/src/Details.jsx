@@ -34,6 +34,10 @@ export default function Details() {
     [alias]
   );
 
+  const handleReviews = () => {
+    navigateTo(`/details/${alias}/reviews`)
+  }
+
   return (
     <>
       <div>
@@ -46,14 +50,13 @@ export default function Details() {
             <a href={details.url}> {details.name} Yelp Profile </a>
             <p> Phone: {details.phone}</p>
             <p> Tags: {details.categories} </p>
-            <p> Transaction Types: {details.transactions}</p>
-            
+            <p> Transaction Type(s): {details.transactions === [] ?  details.transactions : <span> Transaction Types Not Listed! </span>} </p>
+          
             <p> ---------------------------------- </p>
             <div>
               <h3> Most Popular Reviews </h3>
-              {/* <img src={details.photos[1]} alt="" />
-              <img src={details.photos[2]} alt="" />
-              <img src={details.photos[0]} alt="" /> */}
+              <button onClick={handleReviews}> Reviews </button>
+
             </div>
           </>
         ) : (

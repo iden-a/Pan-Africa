@@ -10,7 +10,6 @@ export default function SearchFood() {
   const [limit, setLimit] = useState(0);
   const [results, setResults] = useState([]);
   const [selectRestaurant, setSelectRestaurant] = useState(null);
-  const [alias, setAlias] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -159,7 +158,6 @@ export default function SearchFood() {
               className="result"
               onClick={() => navigateToDetails(result.alias)}
             >
-              <p> Alias: {result.alias}</p>
               <p> Address: {result.address}</p>
               <p> Category: {result.category}</p>
               <p> Name: {result.name}</p>
