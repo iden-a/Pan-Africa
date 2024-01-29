@@ -67,14 +67,37 @@ def details(alias):
         response.raise_for_status()
         result = response.json()
 
+
         restaurant_details = {
             'name': result['name'],
             'image': result['image_url'],
             'phone': result['display_phone'] if result['display_phone'] else 'N/A',
-            'transactions': result['transactions'] if result['transactions'] else 'Uknown Transaction Type!',
             'photos': result['photos'],
-            'reviews': result['review_count']
+            'reviews': result['review_count'],
+            'url': result['url'],
+            'address': f"{result['location']['address1']}, {result['location']['city']}, {result['location']['state']} {result['location']['zip_code']}"
         }
+
+        transaction_list = result['transactions']
+        transaction_types = []
+
+        for transaction in transaction_list:
+            transaction_types.append(transaction.capitalize() + " ")
+
+        restaurant_details['transactions'] = transaction_types
+        print(transaction_types)
+
+        categories_list = result['categories']
+        categories_titles = []
+
+        for category in categories_list:
+            categories_titles.append(category['title'] + " ")
+
+
+        restaurant_details['categories'] = categories_titles
+        print(categories_titles)
+
+        
 
         return jsonify(restaurant_details), 200
     except Exception as error:

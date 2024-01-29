@@ -37,19 +37,23 @@ export default function Details() {
   return (
     <>
       <div>
-        <h1> DETAILS !!! </h1>
 
         {isLoading ? (
           <>
             <h1>{details.name}</h1>
             <img src={details.image} alt="..." />
-            <p>{details.transactions}</p>
-            <p>{details.phone}</p>
+            <p> {details.address}</p>
+            <a href={details.url}> {details.name} Yelp Profile </a>
+            <p> Phone: {details.phone}</p>
+            <p> Tags: {details.categories} </p>
+            <p> Transaction Types: {details.transactions}</p>
+            
+            <p> ---------------------------------- </p>
             <div>
-              <h3> Image Gallery </h3>
-              <img src={details.photos[1]} alt="" />
+              <h3> Most Popular Reviews </h3>
+              {/* <img src={details.photos[1]} alt="" />
               <img src={details.photos[2]} alt="" />
-              <img src={details.photos[0]} alt="" />
+              <img src={details.photos[0]} alt="" /> */}
             </div>
           </>
         ) : (
