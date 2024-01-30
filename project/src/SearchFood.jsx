@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Details from "./Details";
 import axios from "axios";
-import "./SearchFood.css";
 
 export default function SearchFood() {
   const [location, setLocation] = useState("");
@@ -93,26 +92,30 @@ export default function SearchFood() {
 
   return (
     <>
-      <div className="search-form">
+      <div className="search-form mt-10 font-serif text-xl">
         <form onSubmit={SearchForRestaurant}>
-          <div>
+          <div className="location flex justify-center">
             <label>
-              Location *:
+              Location: 
               <input
+                className="rounded-lg w-96 border-2 border-slate-500"
                 type="text"
                 name="location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                placeholder="Enter location"
+                placeholder="  Enter location..."
               />
             </label>
           </div>
 
-          <div>
-            <div className="input-form">
+
+          <div className="radius-limit flex justify-center space-x-4 mt-5 mb-5">
+
+          <div className="radius">
               <label>
-                Radius *:
+                Radius : 
                 <input
+                  className="border-2 border-slate-500"
                   type="number"
                   name="radius"
                   value={radius}
@@ -123,13 +126,13 @@ export default function SearchFood() {
                   step="5"
                 />
               </label>
-            </div>
           </div>
 
-          <div>
+          <div className="limit">
             <label>
-              Limit *:
+              Limit:  
               <input
+                className="border-2 border-slate-500"
                 type="number"
                 name="limit"
                 value={limit}
@@ -140,31 +143,45 @@ export default function SearchFood() {
               />
             </label>
           </div>
+          </div>
 
+
+          <div className="flex justify-center space-x-4 underline">
           <button type="submit">Search</button>
+          <br />
+          <button onClick={clearSearch}> Clear </button>
+          </div>
         </form>
-        <button onClick={clearSearch}> Clear </button>
+       
       </div>
 
-      {loading && <p>Loading...</p>}
+      {loading && <p className="text-center mt-60 font-serif text-2xl">Loading...</p>}
 
       {error && <p>Error: {error.message}</p>}
 
       {showResults && (
-        <div className="results">
+        <div className="results flex flex-wrap flex-row font-serif text-lg mx-auto">
           {results.map((result) => (
             <div
               key={result.id}
-              className="result"
+              className="result mt-20 px-8"
               onClick={() => navigateToDetails(result.alias)}
             >
-              <p> Address: {result.address}</p>
-              <p> Category: {result.category}</p>
-              <p> Name: {result.name}</p>
+              <div className="text-center pb-5">
+              <p className="underline"> {result.name}</p>
+              <p> {result.address}</p>
+              </div>
+            
+              <div className="flex justify-center items-center">
+              <img src={result.image} alt={result.alt} className="size-96 content-center"/>
+              </div>
+             <div className="p-5">
               <p> Phone: {result.phone}</p>
               <p> Price Range: {result.price}</p>
               <p> Rating: {result.rating}</p>
-              <img src={result.image} alt="..." />
+              </div>
+              
+             
             </div>
           ))}
         </div>

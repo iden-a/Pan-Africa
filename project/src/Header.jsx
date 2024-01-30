@@ -4,15 +4,15 @@ import "./Header.css";
 export default function Header() {
   return (
     <>
-      <div className="header">
-        <h1 className="logo"> Pan-Africa!</h1>
+      <div className="header font-serif text-sm mt-10">
+        <h1 className="logo ml-20"> Pan-Africa!</h1>
         <nav>
-          <ul className="nav">
-            <li>
+          <ul className="nav mr-20">
+            <li className="">
               <Link to="/"> Home </Link>
             </li>
 
-            <li>
+            <li className="">
               <Link to="/search"> Explore </Link>
             </li>
           </ul>

@@ -10,9 +10,9 @@ export default function HomePage() {
 
   return (
     <>
-      <div>
-        <p className="text-4xl font-bold underline"> Welcome to Pan-Africa! </p>
-        <button onClick={handleGetStarted}> Get Start </button>
+      <div className="text-center decoration-black font-serif font-bold">
+        <p className="text-5xl mt-60"> Welcome to Pan-Africa! </p>
+        <button onClick={handleGetStarted} className="text-3xl mt-10 underline"> Get Start </button>
       </div>
     </>
   );
