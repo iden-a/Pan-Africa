@@ -1,10 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import axios from "axios";
+import Reviews from "./Reviews";
 
 export default function Details() {
   const { alias } = useParams();
-  const navigateTo = useNavigate();
   const [details, setDetails] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,43 +25,39 @@ export default function Details() {
           );
         }
       };
-      // Check if alias is not null or undefined before fetching data
-      // if (alias) {
       fetchDetails();
-      // }
     },
     [alias]
   );
 
-  const handleReviews = () => {
-    navigateTo(`/details/${alias}/reviews`)
-  }
-
   return (
     <>
       <div>
-
         {isLoading ? (
           <>
-            <h1>{details.name}</h1>
-            <img src={details.image} alt="..." />
-            <p> {details.address}</p>
-            <a href={details.url}> {details.name} Yelp Profile </a>
-            <p> Phone: {details.phone}</p>
-            <p> Tags: {details.categories} </p>
-            <p> Transaction Type(s): {details.transactions === [] ?  details.transactions : <span> Transaction Types Not Listed! </span>} </p>
-          
-            <p> ---------------------------------- </p>
-            <div>
-              <h3> Most Popular Reviews </h3>
-              <button onClick={handleReviews}> Reviews </button>
-
+            <div className="text-center font-serif mt-20">
+              <h1 className="text-4xl pb-3">{details.name}</h1>
+              <div className="flex justify-center items-center">
+                <img src={details.image} alt={details.alt} />
+              </div>
+              <div className="text-xl pt-4">
+                <p> {details.address}</p>
+                <a href={details.url} className="underline"> {details.name} Yelp Profile </a>
+                <p> Phone: {details.phone}</p>
+                <p> Tags: {details.categories} </p>
+              </div>
             </div>
+            <Reviews/>
           </>
         ) : (
-          <p> Loading </p>
+          <p className="text-center mt-60 font-serif text-2xl ">
+          Loading... </p>
+
+ 
         )}
       </div>
+
+      
     </>
   );
 }

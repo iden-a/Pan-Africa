@@ -44,7 +44,8 @@ def search():
                 'price': restaurant['price'] if 'price' in restaurant else 'N/A',
                 'category': restaurant['categories'][0]['title'],
                 'rating': f"{restaurant['rating']}/5.0 with {restaurant['review_count']} Reviews",
-                'image' : restaurant['image_url']
+                'image' : restaurant['image_url'],
+                'alt': f"image of {restaurant['name']} from yelp!"
             })
 
         return jsonify(restaurant_results), 200
@@ -75,7 +76,8 @@ def details(alias):
             'photos': result['photos'],
             'reviews': result['review_count'],
             'url': result['url'],
-            'address': f"{result['location']['address1']}, {result['location']['city']}, {result['location']['state']} {result['location']['zip_code']}"
+            'address': f"{result['location']['address1']}, {result['location']['city']}, {result['location']['state']} {result['location']['zip_code']}",
+            'alt': f"image of {result['name']} from yelp!"
         }
 
         transaction_list = result['transactions']
@@ -117,14 +119,6 @@ def reviews(alias):
         response = requests.get(f"{url}/{alias}/reviews", headers=headers)
         response.raise_for_status()
         result = response.json()['reviews']
-
-
-        # restaurant_reviews = {
-        #     'text': result['text'],
-        #     'rating': result['rating']
-        # }
-
-        
 
         return jsonify(result), 200
 
