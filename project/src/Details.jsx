@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Reviews from "./Reviews";
 
@@ -27,8 +27,10 @@ export default function Details() {
       };
       fetchDetails();
     },
-    [alias]
+    []
   );
+
+  
 
   return (
     <>
