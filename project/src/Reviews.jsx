@@ -36,9 +36,9 @@ export default function Reviews() {
         <h1 className="mt-36">Top Reviews</h1>
       </div>
 
-      <div className="reviews flex flex-row mt-20 mb-48 mx-24 space-x-10">
+      <div className="reviews flex flex-row mt-20 mb-48 mx-24 space-x-10 ">
         {reviews.map((review) => (
-          <div key={review.id} className="review text-xl">
+          <div key={review.id} className="review text-xl md:pt-10 md: mx-10 ">
             <p> Name: {review.user.name}</p>
             <p> Rating: {review.rating}/5 </p>
             <p> Time Created: {review.time_created}</p>
@@ -46,6 +46,7 @@ export default function Reviews() {
             <p className="underline"> Review</p>
             <p> {review.text}</p>
             <a href={review.url} className="underline"> Read More!</a>
+            <p> ---------------------------------------</p>
           </div>
         ))}
       </div>

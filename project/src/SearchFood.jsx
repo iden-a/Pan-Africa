@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Details from "./Details";
-import axios from "axios";
 
 export default function SearchFood() {
   const [location, setLocation] = useState("");
@@ -13,7 +12,7 @@ export default function SearchFood() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(true);
   const [showResults, setShowResults] = useState(true);
 
   const navigateTo = useNavigate();
@@ -29,42 +28,30 @@ export default function SearchFood() {
       console.log(data);
       const aliases = data.map(({ alias, id }) => ({ alias, id }));
       console.log("Aliases: ", aliases);
-      setFormSubmitted(true);
+      setResults(data);
+      setLoading(false);
+      setShowResults(true);
+      sessionStorage.setItem("searchResults", JSON.stringify(data));
     } catch (error) {
       console.log(error);
+      setError("Something went wrong with the form submission, please try again.");
+      setLoading(false);
     }
   };
-
+  
   useEffect(() => {
-    if (formSubmitted) {
-      axios
-        .get(
-          `http://localhost:5000/search?location=${location}&radius=${radius}&limit=${limit}`
-        )
-        .then((response) => {
-          setResults(response.data);
-          console.log(response.data);
-          setLoading(false);
-          setFormSubmitted(false);
-          setShowResults(true);
-          // Store results in sessionStorage
-          sessionStorage.setItem("searchResults", JSON.stringify(response.data));
-        })
-        .catch((error) => {
-          console.log(error);
-          setError(
-            "Something went wrong with the form submission, please try again."
-          );
-          setLoading(false);
-        });
-    } else {
-      // Retrieve results from sessionStorage
-      const storedResults = sessionStorage.getItem("searchResults");
-      if (storedResults) {
-        setResults(JSON.parse(storedResults));
-      }
+    // Retrieve results from sessionStorage
+    const storedResults = sessionStorage.getItem("searchResults");
+    if (storedResults && formSubmitted) {
+      setResults(JSON.parse(storedResults));
+      setShowResults(true);
+      setFormSubmitted(true);
+    } else if (!formSubmitted) {
+      SearchForRestaurant(e);
     }
   }, [formSubmitted]);
+  
+  
 
   const clearSearch = async (e) => {
     e.preventDefault();
