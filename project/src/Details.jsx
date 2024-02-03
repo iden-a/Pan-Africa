@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Reviews from "./Reviews";
 
@@ -27,16 +27,16 @@ export default function Details() {
       };
       fetchDetails();
     },
-    []
+    [alias]
   );
 
-  
 
   return (
     <>
       <div>
         {isLoading ? (
           <>
+
             <div className="text-center font-serif mt-20">
               <h1 className="text-4xl pb-3">{details.name}</h1>
               <div className="flex justify-center items-center">
@@ -50,16 +50,12 @@ export default function Details() {
               </div>
             </div>
             <Reviews/>
+
           </>
         ) : (
-          <p className="text-center mt-60 font-serif text-2xl ">
-          Loading... </p>
-
- 
+          <> <p className="text-center mt-96 font-serif text-4xl animate-spin"> 🥘</p> <p className="text-center mt-10 font-serif text-2xl">Loading Restaurant Details...</p> </>
         )}
-      </div>
-
-      
+      </div>      
     </>
   );
 }
