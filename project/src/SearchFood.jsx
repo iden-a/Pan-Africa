@@ -19,39 +19,45 @@ export default function SearchFood() {
 
   const SearchForRestaurant = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setShowResults(false);
     try {
       const response = await fetch(
         `http://localhost:5000/search?location=${location}&radius=${radius}&limit=${limit}`
       );
       const data = await response.json();
-      setLoading(true);
       console.log(data);
       const aliases = data.map(({ alias, id }) => ({ alias, id }));
       console.log("Aliases: ", aliases);
       setResults(data);
       setLoading(false);
       setShowResults(true);
+      setFormSubmitted(false);
       sessionStorage.setItem("searchResults", JSON.stringify(data));
     } catch (error) {
       console.log(error);
-      setError("Something went wrong with the form submission, please try again.");
+      setError(
+        "Something went wrong with the form submission, please try again."
+      );
       setLoading(false);
     }
   };
-  
-  useEffect(() => {
-    // Retrieve results from sessionStorage
-    const storedResults = sessionStorage.getItem("searchResults");
-    if (storedResults && formSubmitted) {
-      setResults(JSON.parse(storedResults));
-      setShowResults(true);
-      setFormSubmitted(true);
-    } else if (!formSubmitted) {
-      SearchForRestaurant(e);
-    }
-  }, [formSubmitted]);
-  
-  
+
+  useEffect(
+    (e) => {
+      // Retrieve results from sessionStorage
+      const storedResults = sessionStorage.getItem("searchResults");
+      if (storedResults && formSubmitted) {
+        setResults(JSON.parse(storedResults));
+        setShowResults(true);
+        setFormSubmitted(true);
+      } else if (!formSubmitted) {
+        SearchForRestaurant(e);
+        setFormSubmitted(false);
+      }
+    },
+    [formSubmitted]
+  );
 
   const clearSearch = async (e) => {
     e.preventDefault();
@@ -79,13 +85,13 @@ export default function SearchFood() {
 
   return (
     <>
-      <div className="search-form mt-10 font-serif text-xl">
+      <div className="search-form mt-20 font-serif text-xl">
         <form onSubmit={SearchForRestaurant}>
           <div className="location flex justify-center">
             <label>
-              Location: 
+              Location:
               <input
-                className="rounded-lg w-96 border-2 border-slate-500"
+                className="rounded-lg w-96 border-2 border-slate-500 ml-2 p-1"
                 type="text"
                 name="location"
                 value={location}
@@ -95,14 +101,12 @@ export default function SearchFood() {
             </label>
           </div>
 
-
           <div className="radius-limit flex justify-center space-x-4 mt-5 mb-5">
-
-          <div className="radius">
+            <div className="radius ">
               <label>
-                Radius : 
+                Radius:
                 <input
-                  className="border-2 border-slate-500"
+                  className="border rounded-lg ml-2 text-center"
                   type="number"
                   name="radius"
                   value={radius}
@@ -113,68 +117,106 @@ export default function SearchFood() {
                   step="5"
                 />
               </label>
+            </div>
+
+            <div className="limit">
+              <label>
+                Limit:
+                <input
+                  className="border rounded-lg ml-2 text-center"
+                  type="number"
+                  name="limit"
+                  value={limit}
+                  onChange={(e) => setLimit(e.target.value)}
+                  placeholder="Enter Limit"
+                  min={1}
+                  max={20}
+                />
+              </label>
+            </div>
           </div>
 
-          <div className="limit">
-            <label>
-              Limit:  
-              <input
-                className="border-2 border-slate-500"
-                type="number"
-                name="limit"
-                value={limit}
-                onChange={(e) => setLimit(e.target.value)}
-                placeholder="Enter Limit"
-                min={1}
-                max={20}
-              />
-            </label>
-          </div>
-          </div>
-
-
-          <div className="flex justify-center space-x-4 underline">
-          <button type="submit">Search</button>
-          <br />
-          <button onClick={clearSearch}> Clear </button>
+          <div className="flex justify-center space-x-12">
+            <button
+              type="submit"
+              className="border-2 px-2 py-2 rounded-lg bg-amber-500 hover:bg-amber-300"
+            >
+              Search
+            </button>
+            <br />
+            <button
+              onClick={clearSearch}
+              className="border-2 px-2 py-2 rounded-lg bg-amber-500 hover:bg-amber-300"
+            >
+              {" "}
+              Clear{" "}
+            </button>
           </div>
         </form>
-       
       </div>
 
-      {loading && <p className="text-center mt-60 font-serif text-2xl">Loading...</p>}
+      {loading && (
+        <>
+          {" "}
+          <p className="text-center mt-60 font-serif text-4xl animate-spin">
+            {" "}
+            🥘
+          </p>{" "}
+          <p className="text-center mt-10 font-serif text-2xl">
+            Loading Restaurants...
+          </p>{" "}
+        </>
+      )}
 
-      {error && <p>Error: {error.message}</p>}
+      {error && (
+        <>
+          {" "}
+          <p className="text-center mt-60 font-serif text-2xl">
+            {" "}
+            Trouble Finding Restauants :({" "}
+          </p>{" "}
+          <p className="text-center mt-5 font-serif text-4xl animate-spin">
+            {" "}
+            🥘{" "}
+          </p>{" "}
+          <p className="text-center mt-5 font-serif text-2xl">
+            {" "}
+            Please try again!{" "}
+          </p>{" "}
+        </>
+      )}
 
       {showResults && (
-        <div className="results flex flex-wrap flex-row font-serif text-lg mx-auto">
+        <div className="results flex flex-wrap flex-row font-serif text-lg justify-center mb-24">
           {results.map((result) => (
             <div
               key={result.id}
-              className="result mt-20 px-8"
+              className="result mt-20 px-20"
               onClick={() => navigateToDetails(result.alias)}
             >
               <div className="text-center pb-5">
-              <p className="underline"> {result.name}</p>
-              <p> {result.address}</p>
+                <p className="underline"> {result.name}</p>
+                <p> {result.address}</p>
               </div>
-            
+
               <div className="flex justify-center items-center">
-              <img src={result.image} alt={result.alt} className="size-96 content-center"/>
+                <img
+                  src={result.image}
+                  alt={result.alt}
+                  className="size-96 content-center"
+                />
               </div>
-             <div className="p-5">
-              <p> Phone: {result.phone}</p>
-              <p> Price Range: {result.price}</p>
-              <p> Rating: {result.rating}</p>
+              <div className="p-5">
+                <p> Phone: {result.phone}</p>
+                <p> Price Range: {result.price}</p>
+                <p> Rating: {result.rating}</p>
               </div>
-              
-             
             </div>
           ))}
         </div>
       )}
 
-      {selectRestaurant && <Details result={selectRestaurant}/>}
+      {selectRestaurant && <Details result={selectRestaurant} />}
     </>
   );
 }
