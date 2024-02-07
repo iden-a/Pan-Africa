@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {format} from "date-fns";
 
+
+
 export default function Reviews() {
   const { alias } = useParams();
   const [reviews, setReviews] = useState([]);
@@ -65,7 +67,6 @@ export default function Reviews() {
                 <p> Name: {review.user.name}</p>
                 <p> Rating: {review.rating}/5 </p>
                 <p> Time Created: {review.time_created}</p>
-
                 <br />
                 <p> {review.text}</p>
                 <a href={review.url} className="underline">
