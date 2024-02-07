@@ -83,6 +83,12 @@ export default function SearchFood() {
     }
   };
 
+
+
+
+ 
+
+
   return (
     <>
       <div className="search-form mt-20 font-serif text-xl">
@@ -191,7 +197,7 @@ export default function SearchFood() {
           {results.map((result) => (
             <div
               key={result.id}
-              className="result mt-20 px-20"
+              className="result mt-20 px-20 cursor-pointer"
               onClick={() => navigateToDetails(result.alias)}
             >
               <div className="text-center pb-5">

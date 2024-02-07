@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import {format} from "date-fns";
+
+
 
 export default function Reviews() {
   const { alias } = useParams();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [reviewDate, setReviewDate] = useState("");
   const navigateTo = useNavigate();
 
   useEffect(
@@ -15,6 +19,17 @@ export default function Reviews() {
             `http://localhost:5000/businesses/${alias}/reviews`
           );
           const data = await response.json();
+
+          /// formatting the dates
+          const dates = data.map(({ time_created }) => time_created);
+          const formattedDates = dates.map(dateString =>
+            format(new Date(dateString), 'MMMM dd, yyyy hh:mm:ss a')
+          );
+          console.log("These are the dates: ", formattedDates);
+          setReviewDate(formattedDates);
+          console.log("Review Date: ", reviewDate);
+          /////////////////////
+          
           console.log(data);
           setLoading(true);
           setReviews(data);
