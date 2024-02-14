@@ -83,12 +83,6 @@ export default function SearchFood() {
     }
   };
 
-
-
-
- 
-
-
   return (
     <>
       <div className="search-form mt-20 font-serif text-xl">

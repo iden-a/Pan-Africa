@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import {format} from "date-fns";
-
-
 
 export default function Reviews() {
   const { alias } = useParams();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [reviewDate, setReviewDate] = useState("");
   const navigateTo = useNavigate();
 
   useEffect(
@@ -19,16 +15,6 @@ export default function Reviews() {
             `http://localhost:5000/businesses/${alias}/reviews`
           );
           const data = await response.json();
-
-          /// formatting the dates
-          // const dates = data.map(({ time_created }) => time_created);
-          // const formattedDates = dates.map(dateString =>
-          //   format(new Date(dateString), 'MMMM dd, yyyy hh:mm:ss a')
-          // );
-          // console.log("These are the dates: ", formattedDates);
-          // setReviewDate(formattedDates);
-          // console.log("Review Date: ", reviewDate);
-          /////////////////////
           console.log(data);
           setLoading(true);
           setReviews(data);
@@ -55,20 +41,19 @@ export default function Reviews() {
           <h1 className="mt-36">Top Reviews</h1>
         </div>
 
-
         <div className="reviews flex flex-row mt-20 mb-48 mx-24 space-x-10">
           {reviews.map((review) => (
             <>
               <div
                 key={review.id}
-                className="review text-xl mx-10 border  py-10 px-10 rounded-lg bg-slate-50"
+                className="review text-xl mx-10 border py-10 px-10 rounded-lg bg-slate-50 "
               >
                 <p> Name: {review.name}</p>
                 <p> Rating: {review.rating}/5 </p>
                 <p> Date: {review.date}</p>
                 <br />
                 <p> {review.review_message}</p>
-                <a href={review.url} className="underline">
+                <a href={review.url} className="underline hover:text-amber-500">
                   {" "}
                   Read More!
                 </a>
@@ -76,15 +61,15 @@ export default function Reviews() {
             </>
           ))}
         </div>
-        </div>
+      </div>
 
       <button
-          onClick={navigateToResults}
-          className="border-2 font-serif px-2 py-2 rounded-lg mb-10 text-2xl bg-amber-500 hover:bg-amber-300 ml-36"
-        >
-          {" "}
-          Back{" "}
-        </button>
+        onClick={navigateToResults}
+        className="border-2 font-serif px-2 py-2 rounded-lg mb-10 text-2xl bg-amber-500 hover:bg-amber-300 ml-36"
+      >
+        {" "}
+        Back{" "}
+      </button>
     </>
   );
 }

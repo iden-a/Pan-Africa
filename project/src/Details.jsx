@@ -20,10 +20,9 @@ export default function Details() {
           setIsLoading(true);
           console.log(isLoading);
           setDetails(data);
-        } catch (error) {
-          setError(
-            "The server ran into an error getting the events, please try again!"
-          );
+        } catch (err) {
+          setError( "The server ran into an error getting the events, please try again!");
+          console.log(error);
         }
       };
       fetchDetails();
@@ -31,13 +30,11 @@ export default function Details() {
     [alias]
   );
 
-
   return (
     <>
       <div>
         {isLoading ? (
           <>
-
             <div className="text-center font-serif mt-20">
               <h1 className="text-4xl pb-3">{details.name}</h1>
               <div className="flex justify-center items-center">
@@ -51,7 +48,6 @@ export default function Details() {
               </div>
             </div>
             <Reviews/>
-
           </>
         ) : (
           <> <p className="text-center mt-96 font-serif text-4xl animate-spin"> 🥘</p> <p className="text-center mt-10 font-serif text-2xl">Loading Restaurant Details...</p> </>
