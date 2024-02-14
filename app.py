@@ -61,14 +61,12 @@ def details(alias):
         url = "https://api.yelp.com/v3/businesses"
         headers = {"Authorization": f"Bearer {API_KEY}"}
         
-        print(alias) 
         if not alias:
             return jsonify({'error': 'Business id/alias is required.'}), 400
 
         response = requests.get(f"{url}/{alias}", headers=headers)
         response.raise_for_status()
         result = response.json()
-
 
         restaurant_details = {
             'name': result['name'],
@@ -96,11 +94,8 @@ def details(alias):
         for category in categories_list:
             categories_titles.append(category['title'] + " ")
 
-
         restaurant_details['categories'] = categories_titles
         print(categories_titles)
-
-        
 
         return jsonify(restaurant_details), 200
     except Exception as error:
@@ -113,7 +108,6 @@ def reviews(alias):
         url = "https://api.yelp.com/v3/businesses"
         headers = {"Authorization": f"Bearer {API_KEY}"}
         
-        print(alias) 
         if not alias:
             return jsonify({'error': 'Business id/alias is required.'}), 400
 
@@ -125,12 +119,9 @@ def reviews(alias):
 
         for result in reviews:
             date_object = datetime.strptime(result['time_created'], "%Y-%m-%d %H:%M:%S")
-    
-            # Format the datetime object as desired
             formatted_date = date_object.strftime("%B %d, %Y %I:%M:%S %p")
-    
-            # Add the formatted date to the dictionary
             result['time_created'] = formatted_date
+
             restaurant_reviews.append({
                 'id' : result['user']['id'],
                 'review_message' : result['text'],
@@ -142,9 +133,6 @@ def reviews(alias):
 
         print("This is the result: ", restaurant_reviews)
         return jsonify(restaurant_reviews), 200
-
-    
-        
 
     except Exception as error:
         return jsonify({'error': str(error)}), 500
