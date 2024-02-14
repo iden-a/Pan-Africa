@@ -21,15 +21,14 @@ export default function Reviews() {
           const data = await response.json();
 
           /// formatting the dates
-          const dates = data.map(({ time_created }) => time_created);
-          const formattedDates = dates.map(dateString =>
-            format(new Date(dateString), 'MMMM dd, yyyy hh:mm:ss a')
-          );
-          console.log("These are the dates: ", formattedDates);
-          setReviewDate(formattedDates);
-          console.log("Review Date: ", reviewDate);
+          // const dates = data.map(({ time_created }) => time_created);
+          // const formattedDates = dates.map(dateString =>
+          //   format(new Date(dateString), 'MMMM dd, yyyy hh:mm:ss a')
+          // );
+          // console.log("These are the dates: ", formattedDates);
+          // setReviewDate(formattedDates);
+          // console.log("Review Date: ", reviewDate);
           /////////////////////
-          
           console.log(data);
           setLoading(true);
           setReviews(data);
@@ -64,11 +63,11 @@ export default function Reviews() {
                 key={review.id}
                 className="review text-xl mx-10 border  py-10 px-10 rounded-lg bg-slate-50"
               >
-                <p> Name: {review.user.name}</p>
+                <p> Name: {review.name}</p>
                 <p> Rating: {review.rating}/5 </p>
-                <p> Time Created: {review.time_created}</p>
+                <p> Date: {review.date}</p>
                 <br />
-                <p> {review.text}</p>
+                <p> {review.review_message}</p>
                 <a href={review.url} className="underline">
                   {" "}
                   Read More!

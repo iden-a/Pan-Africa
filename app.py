@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 import config
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app) 
@@ -118,9 +119,32 @@ def reviews(alias):
 
         response = requests.get(f"{url}/{alias}/reviews", headers=headers)
         response.raise_for_status()
-        result = response.json()['reviews']
+        reviews = response.json()['reviews']
 
-        return jsonify(result), 200
+        restaurant_reviews = []
+
+        for result in reviews:
+            date_object = datetime.strptime(result['time_created'], "%Y-%m-%d %H:%M:%S")
+    
+            # Format the datetime object as desired
+            formatted_date = date_object.strftime("%B %d, %Y %I:%M:%S %p")
+    
+            # Add the formatted date to the dictionary
+            result['time_created'] = formatted_date
+            restaurant_reviews.append({
+                'id' : result['user']['id'],
+                'review_message' : result['text'],
+                'rating' : result['rating'],
+                'date' : formatted_date,
+                'url' : result['url'],
+                'name' : result['user']['name']
+            })
+
+        print("This is the result: ", restaurant_reviews)
+        return jsonify(restaurant_reviews), 200
+
+    
+        
 
     except Exception as error:
         return jsonify({'error': str(error)}), 500
