@@ -6,6 +6,7 @@ export default function Details() {
   const { alias } = useParams();
   const [details, setDetails] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(
     (e) => {
