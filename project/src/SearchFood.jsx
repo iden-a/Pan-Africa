@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Details from "./Details";
+import './SearchFood.css';
+
 
 export default function SearchFood() {
   const [location, setLocation] = useState("");
@@ -111,7 +113,7 @@ export default function SearchFood() {
                   name="radius"
                   value={radius}
                   onChange={(e) => setRadius(e.target.value)}
-                  placeholder="Enter Limit"
+                  placeholder="0"
                   min="5"
                   max="25"
                   step="5"
@@ -128,7 +130,7 @@ export default function SearchFood() {
                   name="limit"
                   value={limit}
                   onChange={(e) => setLimit(e.target.value)}
-                  placeholder="Enter Limit"
+                  placeholder="0"
                   min={1}
                   max={20}
                 />
@@ -191,7 +193,7 @@ export default function SearchFood() {
           {results.map((result) => (
             <div
               key={result.id}
-              className="result mt-20 px-20 cursor-pointer"
+              className="result mt-20 px-20 cursor-pointer hover:hover:bg-amber-300 rounded-xl pt-2"
               onClick={() => navigateToDetails(result.alias)}
             >
               <div className="text-center pb-5">

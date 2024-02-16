@@ -42,7 +42,7 @@ export default function Details() {
               </div>
               <div className="text-xl pt-4">
                 <p> {details.address}</p>
-                <a href={details.url} className="underline"> {details.name} Yelp Profile </a>
+                <a href={details.url} className="underline hover:text-amber-500"> {details.name} Yelp Profile </a>
                 <p> Phone: {details.phone}</p>
                 <p> Tags: {details.categories} </p>
               </div>
