@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import './Reviews.css';
 
 export default function Reviews() {
   const { alias } = useParams();
